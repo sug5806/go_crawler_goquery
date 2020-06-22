@@ -52,10 +52,14 @@ func resolveRelative(baseURL string, hrefs []string) []string {
 		if strings.HasPrefix(href, baseURL) {
 			internalUrls = append(internalUrls, href)
 		}
-
-		if strings.HasPrefix(href, "/") {
-			resolvedURL := fmt.Sprintf("%s%s", baseURL, href)
-			internalUrls = append(internalUrls, resolvedURL)
+		if strings.HasPrefix(href, "//") {
+			//resolvedURL := fmt.Sprintf("%s%s", baseURL, href)ㅏ
+			internalUrls = append(internalUrls, href)
+		} else {
+			if strings.HasPrefix(href, "/") {
+				resolvedURL := fmt.Sprintf("%s%s", baseURL, href)
+				internalUrls = append(internalUrls, resolvedURL)
+			}
 		}
 	}
 
@@ -122,7 +126,6 @@ func Crawl(startURL string, parser Parser, concurrency int) []ScrapeResult {
 		log.Println("foundLInks : ", foundLinks)
 	}
 
-
 	//for ; n >0; n-- {
 	//	list := <-workList
 	//	for _, link := range list {
@@ -141,4 +144,3 @@ func Crawl(startURL string, parser Parser, concurrency int) []ScrapeResult {
 	//}
 	return results
 }
-
